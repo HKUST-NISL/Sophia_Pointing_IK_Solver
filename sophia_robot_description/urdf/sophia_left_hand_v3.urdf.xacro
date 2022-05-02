@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+
+<robot name="sophia_hand" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find sophia_robot_description)/urdf/macros.xacro"/>
+	<!-- <xacro:include filename="$(find sophia_robot_description)/urdf/sophia_left_hand.transmission.xacro"/>
+	<xacro:include filename="$(find sophia_robot_description)/urdf/sophia_left_hand.gazebo.xacro"/> -->
+
+	<!-- <xacro:arg name="collision" default="false"/> -->
+
+	<xacro:macro name="left_hand" params="parent *origin prefix:='' is_collision:='true' is_visual:='false'">
+
+		<xacro:property name="PI" value="3.1415926535897931"/>
+		<xacro:property name="knucle_mass" value="0.010"/>
+        <xacro:property name="MCP_mass" value="0.01"/>
+        <xacro:property name="PIP_mass" value="0.01"/>
+        <xacro:property name="DIP_mass" value="0.001"/>
+        <xacro:property name="motor_mass" value="0.001"/>
+
+		<xacro:property name="damping_value" value="1" />
+		<xacro:property name="friction_value" value="0.1" />
+
+		<link name="${prefix}left_wrist_plate"/>
+
+		<joint name="${prefix}left_wrist_plate_joint" type="fixed">
+			<xacro:insert_block name="origin"/>
+			<parent link="${parent}"/>
+			<child link="${prefix}left_wrist_plate"/>
+			<limit lower="0.0" upper="0.0" effort="0.0" velocity="0.0"/>
+        </joint>
+
+		<link name="${prefix}left_hand_palm">
+			<!-- Yifan note: this palm file seems missing. -->
+			<!-- <xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="0.00 0.0 0.0" rpy="${-PI/2} 0 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - hand_PALM_L_v6.1.3-2.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="0.00 0.0 0.0" rpy="${-PI/2} 0 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - hand_PALM_L_v6.1.3-2.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if> -->
+
+			<!-- Yifan note: improvise with a different file -->
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="0.00 0.0 0.0" rpy="${-PI/2} 0 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - hand_TOP_L_v6.1.3-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.1"/>
+				<inertia ixx="8.7e-5" iyy="1.9e-4" izz="2.7e-4" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_hand_palm_joint" type="fixed">
+			<parent link="${prefix}left_wrist_plate"/>
+			<child link="${prefix}left_hand_palm"/>
+			<origin xyz="-0.007344615 -0.011025 -0.07875" rpy="${-PI} ${PI/2} 0"/>
+		</joint>
+
+		<link name="${prefix}left_index_base">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00782080487 -0.01586281078 -0.004816" rpy="${-PI/2} 0 -0.22548873101446276"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_INDEX_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00782080487 -0.01586281078 -0.004816" rpy="${-PI/2} 0 -0.22548873101446276"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_INDEX_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<!-- <inertia ixx="2e-6" iyy="2e-6" izz="2e-6" ixy="0.0" ixz="0.0" iyz="0.0"/> -->
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_index_base_joint" type="revolute">
+			<parent link="${prefix}left_hand_palm"/>
+			<child link="${prefix}left_index_base"/>
+			<origin xyz="0.00407617 0.01720984 0.004816" rpy="0 0 0"/>
+			<axis xyz="0 0 1"/>
+			<limit lower="0" upper="0.17" effort="100.0"  velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_index_proximal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.0110818793 -0.0163099733 -0.000341100203" rpy="-1.681559060182515 0.4490399298242096 -0.2508081831953472"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_INDEX_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.0110818793 -0.0163099733 -0.000341100203" rpy="-1.681559060182515 0.4490399298242096 -0.2508081831953472"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_INDEX_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<!-- <inertia ixx="2e-6" iyy="3e-6" izz="3e-6" ixy="0.0" ixz="0.0" iyz="0.0"/> -->
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_index_proximal_joint" type="revolute">
+			<parent link="${prefix}left_index_base"/>
+			<child link="${prefix}left_index_proximal"/>
+			<origin xyz="0.00194937 0.0004471625 0.000425" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<limit lower="0" upper="1.3" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_index_intermediate">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.03746491 -0.01586282 0.01921141" rpy="-1.86963276815499 0.9088956776027881 -0.3723179926759017"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_INDEX_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.03746491 -0.01586282 0.01921141" rpy="-1.86963276815499 0.9088956776027881 -0.3723179926759017"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_INDEX_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<!-- <inertia ixx="2e-6" iyy="3e-6" izz="3e-6" ixy="0.0" ixz="0.0" iyz="0.0"/> -->
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_index_intermediate_joint" type="continuous">
+			<parent link="${prefix}left_index_proximal"/>
+			<child link="${prefix}left_index_intermediate"/>
+			<origin xyz="0.0310203308 -0.000447157292 -0.0000225491279" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_index_proximal_joint" multiplier="0.84" offset="0" />
+			<dynamics damping="${damping_value}" friction="${friction_value}"/>
+		</joint>
+
+		<link name="${prefix}left_index_distal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.05774638 -0.01586282 0.03505605" rpy="-2.0929769168384507 1.139732125493718 -0.5646195807303374"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_INDEX_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.05774638 -0.01586282 0.03505605" rpy="-2.0929769168384507 1.139732125493718 -0.5646195807303374"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_INDEX_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<!-- <inertia ixx="2e-6" iyy="3e-6" izz="3e-6" ixy="0.0" ixz="0.0" iyz="0.0"/> -->
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_index_distal_joint" type="continuous">
+			<parent link="${prefix}left_index_intermediate"/>
+			<child link="${prefix}left_index_distal"/>
+			<origin xyz="0.0273 0 0.0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_index_proximal_joint" multiplier="0.53" offset="0" />
+			<dynamics damping="${damping_value}" friction="${friction_value}"/>
+		</joint>
+
+		<link name="${prefix}left_index_tip">
+		</link>
+
+		<joint name="${prefix}left_index_tip_joint" type="fixed">
+			<parent link="${prefix}left_index_distal"/>
+			<child link="${prefix}left_index_tip"/>
+			<origin xyz="0.015 0 0" rpy="0 0 0"/>
+		</joint>
+
+		<xacro:dummy_link name="${prefix}left_middle_base"/>
+
+		<joint name="${prefix}left_middle_base_joint" type="fixed">
+			<parent link="${prefix}left_hand_palm"/>
+			<child link="${prefix}left_middle_base"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</joint>
+
+		<link name="${prefix}left_middle_proximal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00761352 0.00456516 0.0017168" rpy="${-PI/2} 0.5648080645520484 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_MIDDLE_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00761352 0.00456516 0.0017168" rpy="${-PI/2} 0.5648080645520484 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_MIDDLE_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_middle_proximal_joint" type="revolute">
+			<parent link="${prefix}left_middle_base"/>
+			<child link="${prefix}left_middle_proximal"/>
+			<origin xyz="0.00735 -0.00456516 0.002625" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<limit lower="0" upper="1.3" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_middle_intermediate">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.03385702 0.00431516 0.02622036" rpy="${-PI/2} 1.1836692212242126 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_MIDDLE_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.03385702 0.00431516 0.02622036" rpy="${-PI/2} 1.1836692212242126 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_MIDDLE_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_middle_intermediate_joint" type="continuous">
+			<parent link="${prefix}left_middle_proximal"/>
+			<child link="${prefix}left_middle_intermediate"/>
+			<origin xyz="0.0351750021 0.00025 0.0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_middle_proximal_joint" multiplier="0.84" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_middle_distal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.05003943 0.00431516 0.049549" rpy="${-PI/2} 1.5826139560414971 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_MIDDLE_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.05003943 0.00431516 0.049549" rpy="${-PI/2} 1.5826139560414971 0"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_MIDDLE_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_middle_distal_joint" type="continuous">
+			<parent link="${prefix}left_middle_intermediate"/>
+			<child link="${prefix}left_middle_distal"/>
+			<origin xyz="0.0315 0 0.0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_middle_proximal_joint" multiplier="0.53" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_middle_tip">
+		</link>
+
+		<joint name="${prefix}left_middle_tip_joint" type="fixed">
+			<parent link="${prefix}left_middle_distal"/>
+			<child link="${prefix}left_middle_tip"/>
+			<origin xyz="0.018 0 0" rpy="0 0 0"/>
+		</joint>
+
+		<link name="${prefix}left_ring_base">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00321869536 0.0235209523 -0.0031995" rpy="${-PI/2} 0 0.13599903455354861"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_RING_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00321869536 0.0235209523 -0.0031995" rpy="${-PI/2} 0 0.13599903455354861"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_RING_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<!-- Yifan note: we change this continuous joint to a revolute joint with no bound -->
+		<!-- Also as moveit seems to be having problem managing this mimic joint, it is NOT included in the left hand joint model group -->
+		<!-- so that when we set joint value by joint model group it would not be FORCED -->
+		<joint name="${prefix}left_ring_base_joint" type="revolute">
+			<parent link="${prefix}left_hand_palm"/>
+			<child link="${prefix}left_ring_base"/>
+			<origin xyz="0.0 -0.02374016 0.0031995" rpy="0 0 0"/>
+			<axis xyz="0 0 -1"/>
+			<limit lower="-3.1415926" upper="3.1415926" effort="100.0" velocity="0.5"/>
+			<mimic joint="${prefix}left_index_base_joint" multiplier="0.8" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_ring_proximal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00649755591 0.02352094948 -0.00078427809" rpy="-1.4919369752629343 0.5223420430570275 0.1570863810199444"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_RING_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00649755591 0.02352094948 -0.00078427809" rpy="-1.4919369752629343 0.5223420430570275 0.1570863810199444"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_RING_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_ring_proximal_joint" type="revolute">
+			<parent link="${prefix}left_ring_base"/>
+			<child link="${prefix}left_ring_proximal"/>
+			<origin xyz="0.00199999936 0 0.00075" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<limit lower="0" upper="1.3" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_ring_intermediate">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.03430723737 0.0235208873 0.01908367502" rpy="-1.3407321879187104 1.0303130879137103 0.26664089279385356"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_RING_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.03430723737 0.0235208873 0.01908367502" rpy="-1.3407321879187104 1.0303130879137103 0.26664089279385356"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_RING_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_ring_intermediate_joint" type="continuous">
+			<parent link="${prefix}left_ring_proximal"/>
+			<child link="${prefix}left_ring_intermediate"/>
+			<origin xyz="0.0327579755 0 -0.000364226211" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_ring_proximal_joint" multiplier="0.84" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_ring_distal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.05772309 0.0235208873 0.03558971" rpy="-1.0953658946433042 1.2802870616756195 0.49306508006789923"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_RING_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.05772309 0.0235208873 0.03558971" rpy="-1.0953658946433042 1.2802870616756195 0.49306508006789923"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_RING_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_ring_distal_joint" type="continuous">
+			<parent link="${prefix}left_ring_intermediate"/>
+			<child link="${prefix}left_ring_distal"/>
+			<origin xyz="0.0307650037 0 0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_ring_proximal_joint" multiplier="0.53" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_ring_tip">
+		</link>
+
+		<joint name="${prefix}left_ring_tip_joint" type="fixed">
+			<parent link="${prefix}left_ring_distal"/>
+			<child link="${prefix}left_ring_tip"/>
+			<origin xyz="0.015 0 0" rpy="0 0 0"/>
+		</joint>
+
+		<link name="${prefix}left_pinky_base">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00217948738 0.04285087495 -0.004995" rpy="${-PI/2} 0 0.2728865993203007"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_PINKY_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00217948738 0.04285087495 -0.004995" rpy="${-PI/2} 0 0.2728865993203007"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - finger_base_PINKY_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<!-- Yifan note: we change this continuous joint to a revolute joint with no bound -->
+		<!-- Also as moveit seems to be having problem managing this mimic joint, it is NOT included in the left hand joint model group -->
+		<!-- so that when we set joint value by joint model group it would not be FORCED -->
+		<joint name="${prefix}left_pinky_base_joint" type="revolute">
+			<parent link="${prefix}left_hand_palm"/>
+			<child link="${prefix}left_pinky_base"/>
+			<origin xyz="-0.00945 -0.04185266 0.004995" rpy="0 0 0"/>
+			<axis xyz="0 0 -1"/>
+			<limit lower="-3.1415926" upper="3.1415926" effort="100.0" velocity="0.5"/>
+			<mimic joint="${prefix}left_index_base_joint" multiplier="1.2" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_pinky_proximal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.0061590418 0.04285087495 -0.00354109497" rpy="-1.4509964810589926 0.4035928014485887 0.2974234873935855"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_PINKY_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.0061590418 0.04285087495 -0.00354109497" rpy="-1.4509964810589926 0.4035928014485887 0.2974234873935855"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_PINKY_L_v6.1.3_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_pinky_proximal_joint" type="revolute">
+			<parent link="${prefix}left_pinky_base"/>
+			<child link="${prefix}left_pinky_proximal"/>
+			<origin xyz="0.00200000117 0 0.00075" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<limit lower="0" upper="1.3" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_pinky_intermediate">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.03222311763 0.04285082313 0.01136338377" rpy="-1.2657213458830714 0.8207078532363656 0.40645024660350765"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_PINKY_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.03222311763 0.04285082313 0.01136338377" rpy="-1.2657213458830714 0.8207078532363656 0.40645024660350765"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_PINKY_L_v5.4_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_pinky_intermediate_joint" type="continuous">
+			<parent link="${prefix}left_pinky_proximal"/>
+			<child link="${prefix}left_pinky_intermediate"/>
+			<origin xyz="0.0278250199 0 0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_pinky_proximal_joint" multiplier="0.84" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_pinky_distal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.05137141 0.04285081015 0.02584631" rpy="-1.05157880567071 1.0572513124371603 0.5806953740494655"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_PINKY_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.05137141 0.04285081015 0.02584631" rpy="-1.05157880567071 1.0572513124371603 0.5806953740494655"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_PINKY_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_pinky_distal_joint" type="continuous">
+			<parent link="${prefix}left_pinky_intermediate"/>
+			<child link="${prefix}left_pinky_distal"/>
+			<origin xyz="0.0241499865 0 0" rpy="0 0 0"/>
+			<axis xyz="0 -1 0"/>
+			<mimic joint="${prefix}left_pinky_proximal_joint" multiplier="0.53" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_pinky_tip">
+		</link>
+
+		<joint name="${prefix}left_pinky_tip_joint" type="fixed">
+			<parent link="${prefix}left_pinky_distal"/>
+			<child link="${prefix}left_pinky_tip"/>
+			<origin xyz="0.012 0 0" rpy="0 0 0"/>
+		</joint>
+
+		<xacro:dummy_link name="${prefix}left_thumb_origin"/>
+
+		<joint name="${prefix}left_thumb_origin_joint" type="fixed">
+			<parent link="${prefix}left_hand_palm"/>
+			<child link="${prefix}left_thumb_origin"/>
+			<origin xyz="-0.0486272225 0.0005568225 0.0142842" rpy="-1.9425937480426398 -0.7778423487554836 1.00013300944826"/>
+		</joint>
+
+
+		<link name="${prefix}left_thumb_base">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="0.00835637589 0.04132458115 -0.02813194637" rpy="0.34605214713158866 0.7027657110603239 1.042168340391052"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_Base_THUMB_L_v6.1.2_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="0.00835637589 0.04132458115 -0.02813194637" rpy="0.34605214713158866 0.7027657110603239 1.042168340391052"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_Base_THUMB_L_v6.1.2_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+
+		<joint name="${prefix}left_thumb_base_joint" type="revolute">
+			<parent link="${prefix}left_thumb_origin"/>
+			<child link="${prefix}left_thumb_base"/>
+			<origin xyz="0 0 0" rpy="0 0 0.7"/>
+			<axis xyz="0 0 -1"/>
+			<limit lower="0" upper="1.31" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_thumb_proximal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="0.00835637637 0.04132458031 -0.03625694844" rpy="0.34605214713158866 0.7027657110603239 1.042168340391052"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_THUMB_L_v6.1.1_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="0.00835637637 0.04132458031 -0.03625694844" rpy="0.34605214713158866 0.7027657110603239 1.042168340391052"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_3_THUMB_L_v6.1.1_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_thumb_proximal_joint" type="revolute">
+			<parent link="${prefix}left_thumb_base"/>
+			<child link="${prefix}left_thumb_proximal"/>
+			<origin xyz="0 0 0.00812500207" rpy="0 -0.52 0"/>
+			<axis xyz="0 1 0"/>
+			<limit lower="0" upper="0.9" effort="100.0" velocity="0.5"/>
+		</joint>
+
+		<link name="${prefix}left_thumb_intermediate">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.00459699062 0.0429632204 -0.04475533769" rpy="-0.18820123727690688 0.3270496575363867 0.7695059018688358"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_THUMB_L_v6.1.1_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.00459699062 0.0429632204 -0.04475533769" rpy="-0.18820123727690688 0.3270496575363867 0.7695059018688358"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_2_THUMB_L_v6.1.1_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_thumb_intermediate_joint" type="continuous">
+			<parent link="${prefix}left_thumb_proximal"/>
+			<child link="${prefix}left_thumb_intermediate"/>
+			<origin xyz="0.03716273297 -0.00163864008 -0.00169734204" rpy="0 0 0"/>
+			<axis xyz="0 1 0"/>
+			<mimic joint="${prefix}left_thumb_proximal_joint" multiplier="1" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_thumb_distal">
+			<xacro:if value="${is_collision}">
+				<collision>
+					<origin xyz="-0.03235778788 0.0429632204 -0.04475533769" rpy="-0.18820123727690688 0.3270496575363867 0.7695059018688358"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_THUMB_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<xacro:if  value="${is_visual}">
+				<visual>
+					<origin xyz="-0.03235778788 0.0429632204 -0.04475533769" rpy="-0.18820123727690688 0.3270496575363867 0.7695059018688358"/>
+					<geometry>
+						<mesh scale="0.001 0.001 0.001" filename="package://sophia_robot_description/meshes/hand/left/Hand_assem_L_ v6.1.3 - Finger_1_THUMB_L_v6_NYLON-1.STL"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<inertial>
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<mass value="0.01"/>
+				<inertia ixx="1e-2" iyy="1e-2" izz="1e-2" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+
+		<joint name="${prefix}left_thumb_distal_joint" type="continuous">
+			<parent link="${prefix}left_thumb_intermediate"/>
+			<child link="${prefix}left_thumb_distal"/>
+			<origin xyz="0.0277607973 0 0" rpy="0 -0.418 0"/>
+			<axis xyz="0 1 0"/>
+			<mimic joint="${prefix}left_thumb_proximal_joint" multiplier="1.457" offset="0" />
+		</joint>
+
+		<link name="${prefix}left_thumb_tip">
+		</link>
+
+		<joint name="${prefix}left_thumb_tip_joint" type="fixed">
+			<parent link="${prefix}left_thumb_distal"/>
+			<child link="${prefix}left_thumb_tip"/>
+			<origin xyz="0.01645 0 -0.0073" rpy="${-PI} 0 0"/>
+		</joint>
+
+		<!-- <xacro:sophia_left_hand_transmission prefix="${prefix}"/>
+		<xacro:sophia_left_hand_gazebo prefix="${prefix}"/> -->
+	</xacro:macro>
+
+</robot>

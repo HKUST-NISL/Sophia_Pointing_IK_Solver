@@ -1,0 +1,6 @@
+<robot file="panda.rounded.dae">
+        <Manipulator name="panda">
+          <base>panda_link0</base>
+          <effector>panda_hand</effector>
+        </Manipulator>
+</robot>

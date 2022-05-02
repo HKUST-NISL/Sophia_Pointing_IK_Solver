@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+
+<!-- 
+To get urdf use:
+rosrun xacro xacro.py `rospack find sophia_robot_description`/urdf/description.xacro > `rospack find sophia_robot_description`/urdf/sophia_robot.urdf
+ -->
+
+<robot name="sophia_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find sophia_robot_description)/urdf/sophia_v2.urdf.xacro" />
+	<xacro:include filename="$(find sophia_robot_description)/urdf/common.gazebo.xacro" />
+
+	<xacro:arg name="px" default=""/>
+	<xacro:arg name="visual_mesh" default="false"/>
+	<xacro:arg name="collision_mesh" default="true"/>
+
+	<link name="base">
+		<xacro:if value="$(arg collision_mesh)">
+			<collision>
+				<!-- Original ones seem off the place -->
+				<!-- <origin xyz="0 0 0.075" rpy="0 0 0"/> -->
+
+				<!-- Modified ones -->
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/lower_torso.stl"/>
+				</geometry>
+			</collision>
+		</xacro:if>
+		<xacro:if value="$(arg visual_mesh)">
+			<visual>
+				<!-- Original ones seem off the place -->
+				<!-- <origin xyz="0 0 0.075" rpy="0 0 0"/> -->
+
+				<!-- Modified ones -->
+				<origin xyz="0 0 0" rpy="0 0 0"/>
+				<geometry>
+					<mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/lower_torso.stl"/>
+				</geometry>
+			</visual>
+		</xacro:if>
+		<inertial>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<mass value="0.1"/>
+			<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+		</inertial>
+	</link>
+
+	<xacro:sophia_robot parent="base" prefix="$(arg px)">
+
+		<!-- Original ones seem off the place -->
+		<!-- <origin xyz="0 0 0.5" rpy="0 0 0"/> -->
+
+
+		<!-- Modified ones -->
+		<origin xyz="0 0 0" rpy="0 0 0"/>
+	</xacro:sophia_robot>
+
+</robot>

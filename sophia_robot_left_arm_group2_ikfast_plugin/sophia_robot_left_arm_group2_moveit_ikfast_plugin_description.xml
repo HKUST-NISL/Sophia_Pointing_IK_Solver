@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<library path="lib/libsophia_robot_left_arm_group2_moveit_ikfast_plugin">
+  <class base_class_type="kinematics::KinematicsBase" name="sophia_robot_left_arm_group2/IKFastKinematicsPlugin" type="sophia_robot_left_arm_group2::IKFastKinematicsPlugin">
+    <description>IKFast61 plugin for closed-form kinematics of sophia_robot left_arm_group2</description>
+  </class>
+</library>

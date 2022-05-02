@@ -1,0 +1,141 @@
+controller_list:
+  - name: fake_right_arm_group1_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - right_shoulder_pitch_joint
+      - right_shoulder_roll_joint
+      - right_shoulder_yaw_joint
+      - right_elbow_pitch_joint
+      - right_elbow_artificial_joint
+  - name: fake_left_arm_group1_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - left_shoulder_pitch_joint
+      - left_shoulder_roll_joint
+      - left_shoulder_yaw_joint
+      - left_elbow_pitch_joint
+      - left_elbow_artificial_joint
+  - name: fake_right_arm_group2_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - right_elbow_yaw_joint
+      - right_wrist_pitch_joint
+      - right_wrist_roll_artificial_joint
+  - name: fake_left_arm_group2_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - left_elbow_yaw_joint
+      - left_wrist_pitch_joint
+      - left_wrist_roll_artificial_joint
+  - name: fake_left_arm_group_full_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - left_shoulder_pitch_joint
+      - left_shoulder_roll_joint
+      - left_shoulder_yaw_joint
+      - left_elbow_pitch_joint
+      - left_elbow_yaw_joint
+      - left_wrist_pitch_joint
+      - left_wrist_roll_joint
+  - name: fake_right_arm_group_full_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - right_shoulder_pitch_joint
+      - right_shoulder_roll_joint
+      - right_shoulder_yaw_joint
+      - right_elbow_pitch_joint
+      - right_elbow_yaw_joint
+      - right_wrist_pitch_joint
+      - right_wrist_roll_joint
+  - name: fake_full_body_group_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - left_shoulder_yaw_joint
+      - left_elbow_pitch_joint
+      - left_elbow_artificial_joint
+      - left_elbow_yaw_joint
+      - left_wrist_pitch_joint
+      - left_wrist_roll_artificial_joint
+      - left_wrist_roll_joint
+      - left_index_base_joint
+      - left_index_proximal_joint
+      - left_middle_proximal_joint
+      - left_pinky_proximal_joint
+      - left_ring_proximal_joint
+      - left_thumb_base_joint
+      - left_thumb_proximal_joint
+      - right_shoulder_pitch_joint
+      - right_shoulder_roll_joint
+      - right_shoulder_yaw_joint
+      - right_elbow_pitch_joint
+      - right_elbow_artificial_joint
+      - right_elbow_yaw_joint
+      - right_wrist_pitch_joint
+      - right_wrist_roll_artificial_joint
+      - right_wrist_roll_joint
+      - right_index_base_joint
+      - right_index_proximal_joint
+      - right_middle_proximal_joint
+      - right_pinky_proximal_joint
+      - right_ring_proximal_joint
+      - right_thumb_base_joint
+      - right_thumb_proximal_joint
+  - name: fake_full_body_group_no_artificial_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - torso_yaw_joint
+      - left_shoulder_pitch_joint
+      - left_shoulder_roll_joint
+      - left_shoulder_yaw_joint
+      - left_elbow_pitch_joint
+      - left_elbow_yaw_joint
+      - left_wrist_pitch_joint
+      - left_wrist_roll_joint
+      - left_index_base_joint
+      - left_index_proximal_joint
+      - left_middle_proximal_joint
+      - left_pinky_proximal_joint
+      - left_ring_proximal_joint
+      - left_thumb_base_joint
+      - left_thumb_proximal_joint
+      - right_shoulder_pitch_joint
+      - right_shoulder_roll_joint
+      - right_shoulder_yaw_joint
+      - right_elbow_pitch_joint
+      - right_elbow_yaw_joint
+      - right_wrist_pitch_joint
+      - right_wrist_roll_joint
+      - right_index_base_joint
+      - right_index_proximal_joint
+      - right_middle_proximal_joint
+      - right_pinky_proximal_joint
+      - right_ring_proximal_joint
+      - right_thumb_base_joint
+      - right_thumb_proximal_joint
+  - name: fake_right_hand_group_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - right_index_base_joint
+      - right_index_proximal_joint
+      - right_middle_proximal_joint
+      - right_pinky_proximal_joint
+      - right_ring_proximal_joint
+      - right_thumb_base_joint
+      - right_thumb_proximal_joint
+  - name: fake_left_hand_group_controller
+    type: $(arg fake_execution_type)
+    joints:
+      - left_index_base_joint
+      - left_index_proximal_joint
+      - left_middle_proximal_joint
+      - left_pinky_proximal_joint
+      - left_ring_proximal_joint
+      - left_thumb_base_joint
+      - left_thumb_proximal_joint
+initial:  # Define initial robot poses per group
+  - group: full_body_group
+    pose: home_pose
+  - group: right_hand_group
+    pose: right_hand_pointing
+  - group: left_hand_group
+    pose: left_hand_pointing

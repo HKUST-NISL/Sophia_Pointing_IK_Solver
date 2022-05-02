@@ -1,0 +1,650 @@
+<?xml version="1.0"?>
+
+<robot name="sophia_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+	<xacro:include filename="$(find sophia_robot_description)/urdf/macros.xacro"/>
+	<!-- <xacro:include filename="$(find sophia_robot_description)/urdf/sophia.transmission.xacro"/>
+	<xacro:include filename="$(find sophia_robot_description)/urdf/sophia.gazebo.xacro"/> -->
+	<xacro:include filename="$(find sophia_robot_description)/urdf/sophia_right_hand_v3.urdf.xacro" />
+	<xacro:include filename="$(find sophia_robot_description)/urdf/sophia_left_hand_v3.urdf.xacro" />
+
+	<xacro:arg name="visual_mesh" default="false"/>
+	<xacro:arg name="collision_mesh" default="true"/>
+	<xacro:arg name="hand_visual" default="false"/>
+	<xacro:arg name="hand_collision" default="true"/>
+
+	<xacro:property name="PI" value="3.1415926535897931"/>
+
+	<xacro:macro name="sophia_robot" params="*origin prefix:='' parent:='base_link'">
+
+
+
+
+
+
+		<link name="${prefix}torso_yaw">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<geometry>
+						<mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/upper_torso.stl"/>
+					</geometry>
+				</visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<geometry>
+						<mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/upper_torso.stl"/>
+					</geometry>
+				</collision>
+			</xacro:if>
+			<inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}torso_yaw_joint" type="revolute">
+			<parent link="${parent}"/>
+			<child link="${prefix}torso_yaw"/>
+
+			<!-- Original ones seem off the place -->
+			<!-- <origin xyz="0 0 0.143" rpy="0 0 0"/> -->
+
+			<!-- Modified ones -->
+			<origin xyz="-0.03698509 -0.000917819 0.222723" rpy="0 0 0"/>
+
+
+			<axis xyz="0 0 1"/>
+			<limit lower="-2.9" upper="2.9" effort="1000" velocity="0.5"/>
+		</joint>
+
+
+		<link name="${prefix}shoulder_center">
+			<inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}shoulder_center_joint" type="fixed">
+			<parent link="${prefix}torso_yaw"/>
+			<child link="${prefix}shoulder_center"/>
+
+			<!-- Original ones seem off the place -->
+			<!-- <origin xyz="-0.097 0 0.3182"/> -->
+
+			<!-- Modified ones -->
+			<origin xyz="-0.04794919 -0.001013606 0.1586865"/>
+
+		</joint>
+
+		<!--========================================== RIGHT PART ==================================================== -->
+
+
+		<link name="${prefix}right_shoulder_pitch">
+			<inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_shoulder_pitch_joint" type="revolute">
+		    <parent link="${prefix}shoulder_center"/>
+		    <child link="${prefix}right_shoulder_pitch"/>
+		    <origin xyz="0 -0.1728 0" rpy="0 0 0"/>
+		    <axis xyz="0 -0.99311 -0.11719"/>
+
+			<limit lower="-0.489" upper="1.553" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}right_shoulder_roll">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_upper_shoulder.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_upper_shoulder.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_shoulder_roll_joint" type="revolute">
+		    <parent link="${prefix}right_shoulder_pitch"/>
+		    <child link="${prefix}right_shoulder_roll"/>
+
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+			
+		    <axis xyz="1 0 0"/>
+
+			<limit lower="-1.675" upper="0.017" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}right_shoulder_yaw">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_lower_shoulder.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_lower_shoulder.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_shoulder_yaw_joint" type="revolute">
+		    <parent link="${prefix}right_shoulder_roll"/>
+		    <child link="${prefix}right_shoulder_yaw"/>
+		    <origin xyz="0.0052 0 -0.1043" rpy="0 0 0"/>
+		    <axis xyz="0 0 -1"/>
+
+			<limit lower="-1.169" upper="0.890" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: place an artificial joint and link at the origin of right_elbow_yaw_joint
+		for solving only. This joint has no further use. Although it is declared as revolute, it is treated as fixed,
+		as it would always be set to 0 when solving for ik-->
+		<link name="${prefix}right_elbow_artificial">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_elbow_artificial_joint" type="revolute">
+		    <parent link="${prefix}right_elbow_pitch"/>
+			<child link="${prefix}right_elbow_artificial"/>
+
+			<!-- Yifan note: origins directly computed from the elbow yaw,
+			wrist pitch and wrist roll joint -->
+		    <origin xyz="0.0036 0 -0.235" rpy="0 0 0"/>
+		    <axis xyz="0 0 1"/>
+
+
+			<limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/>
+
+		</joint>
+
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}right_elbow_pitch">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_upper_lower_arm.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_upper_lower_arm.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_elbow_pitch_joint" type="revolute">
+		    <parent link="${prefix}right_shoulder_yaw"/>
+		    <child link="${prefix}right_elbow_pitch"/>
+		    <origin xyz="-0.003 0 -0.1507" rpy="0 0 0"/>
+		    <axis xyz="0 1 0"/>
+
+			<limit lower="-2.217" upper="0" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+
+
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}right_elbow_yaw">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_lower_lower_arm.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_lower_lower_arm.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_elbow_yaw_joint" type="revolute">
+		    <parent link="${prefix}right_elbow_pitch"/>
+		    <child link="${prefix}right_elbow_yaw"/>
+		    <origin xyz="0.0036 0 -0.0935" rpy="0 0 0"/>
+		    <axis xyz="0 0 1"/>
+
+			<limit lower="-2.757" upper="0.0" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}right_wrist_pitch">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_wrist_pitch_joint" type="revolute">
+		    <parent link="${prefix}right_elbow_yaw"/>
+		    <child link="${prefix}right_wrist_pitch"/>
+		    <origin xyz="0 0 -0.1365" rpy="0 0 0"/>
+		    <axis xyz="0 -1 0"/>
+
+			<limit lower="-0.995" upper="0.733" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+		
+		</joint>
+
+		<!-- Yifan note: similar artificial treatment as with the upper arm -->
+		<link name="${prefix}right_wrist_roll_artificial">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_wrist_roll_artificial_joint" type="revolute">
+		    <parent link="${prefix}right_wrist_pitch"/>
+		    <child link="${prefix}right_wrist_roll_artificial"/>
+
+			<!-- By experiment, rotating around x-axis from the original wrist roll joint frame 
+			by 195 degrees best aligns the z-axis with the index finger  -->
+		    <origin xyz="0 0 -0.005" rpy="-1.3089969 0 0"/>
+		    <axis xyz="1 0 0"/>
+
+			<!-- This one is for openrave ikfast generation -->
+			<!-- <limit lower="-0.419" upper="+0.471" effort="1000" velocity="0.5"/> -->
+			
+
+			<!-- This joint has no limit due to its artificial nature-->
+			<!-- The limit would be checked when setting the real joint after applying a proper offset -->
+			<limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/>
+		
+		</joint>
+
+		<link name="${prefix}right_wrist_roll">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_wrist_roll_joint" type="revolute">
+		    <parent link="${prefix}right_wrist_pitch"/>
+		    <child link="${prefix}right_wrist_roll"/>
+
+		    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+		    <axis xyz="1 0 0"/>
+			
+			<!-- This is the original range which looks wrong to me. We use the one for left wrist roll instead for now -->
+			<!-- <limit lower="-0.419" upper="0.332" effort="1000" velocity="0.5"/> -->
+			
+			<!-- Range mimicing the left wrist roll -->
+			<limit lower="-0.419" upper="+0.471" effort="1000" velocity="0.5"/>
+
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+
+		</joint>
+
+		<!-- <link name="${prefix}right_hand">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0.0"/>
+					<geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_hand.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0.0"/>
+					<geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/right_hand.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}right_hand_joint" type="fixed">
+		    <parent link="${prefix}right_wrist_roll"/>
+		    <child link="${prefix}right_hand"/>
+
+		    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+		</joint> -->
+
+		<xacro:right_hand parent="${prefix}right_wrist_roll" prefix="${prefix}" is_visual="$(arg hand_visual)"  is_collision="$(arg hand_collision)">
+			<origin xyz="0.0 0 0." rpy="0 0 0"/>
+		</xacro:right_hand>
+
+
+
+		<!--========================================== LEFT PART ==================================================== -->
+
+		<link name="${prefix}left_shoulder_pitch">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_shoulder_pitch_joint" type="revolute">
+		    <parent link="${prefix}shoulder_center"/>
+		    <child link="${prefix}left_shoulder_pitch"/>
+		    <origin xyz="0 0.1728 0" rpy="0 0 0"/>
+		    <axis xyz="0 0.99311 0.11719"/>
+			
+			<limit lower="-1.553" upper="0.489" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}left_shoulder_roll">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_upper_shoulder.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_upper_shoulder.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_shoulder_roll_joint" type="revolute">
+		    <parent link="${prefix}left_shoulder_pitch"/>
+		    <child link="${prefix}left_shoulder_roll"/>
+		    <origin xyz="0 0 0" rpy="0 0 0"/>
+		    <axis xyz="1 0 0"/>
+			
+			<limit lower="-0.017" upper="1.884" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}left_shoulder_yaw">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_lower_shoulder.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_lower_shoulder.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_shoulder_yaw_joint" type="revolute">
+		    <parent link="${prefix}left_shoulder_roll"/>
+		    <child link="${prefix}left_shoulder_yaw"/>
+		    <origin xyz="0.0052 0 -0.1043" rpy="0 0 0"/>
+		    <axis xyz="0 0 -1"/>
+			
+			<limit lower="-0.977" upper="1.169" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		
+		</joint>
+
+		<!-- Yifan note: same artificial treatment as the right case-->
+		<link name="${prefix}left_elbow_artificial">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_elbow_artificial_joint" type="revolute">
+		    <parent link="${prefix}left_elbow_pitch"/>
+			<child link="${prefix}left_elbow_artificial"/>
+			<!-- Yifan note: origins directly computed from the elbow yaw,
+			wrist pitch and wrist roll joint -->
+		    <origin xyz="0.0036 0 -0.235" rpy="0 0 0"/>
+		    <axis xyz="0 0 1"/>
+
+			<limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/>
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}left_elbow_pitch">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_upper_lower_arm.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_upper_lower_arm.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_elbow_pitch_joint" type="revolute">
+		    <parent link="${prefix}left_shoulder_yaw"/>
+		    <child link="${prefix}left_elbow_pitch"/>
+		    <origin xyz="-0.003 0 -0.1507" rpy="0 0 0"/>
+		    <axis xyz="0 -1 0"/>
+			
+			
+			<limit lower="0" upper="2.270" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}left_elbow_yaw">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_lower_lower_arm.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0"/>
+			        <geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_lower_lower_arm.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_elbow_yaw_joint" type="revolute">
+		    <parent link="${prefix}left_elbow_pitch"/>
+		    <child link="${prefix}left_elbow_yaw"/>
+		    <origin xyz="0.0036 0 -0.0935" rpy="0 0 0"/>
+		    <axis xyz="0 0 1"/>
+
+			<limit lower="0" upper="2.946" effort="1000" velocity="0.5"/>
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+
+		</joint>
+
+		<!-- Yifan note: available in unity rig -->
+		<link name="${prefix}left_wrist_pitch">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_wrist_pitch_joint" type="revolute">
+		    <parent link="${prefix}left_elbow_yaw"/>
+		    <child link="${prefix}left_wrist_pitch"/>
+		    <origin xyz="0 0 -0.1365" rpy="0 0 0"/>
+		    <axis xyz="0 1 0"/>
+
+
+			<limit lower="-1.047" upper="+0.995" effort="1000" velocity="0.5"/>
+
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+		</joint>
+
+		<!-- Yifan note: same artificial treatment as the right case-->
+		<link name="${prefix}left_wrist_roll_artificial">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_wrist_roll_artificial_joint" type="revolute">
+		    <parent link="${prefix}left_wrist_pitch"/>
+		    <child link="${prefix}left_wrist_roll_artificial"/>
+
+		    <origin xyz="0 0 -0.005" rpy="-1.3089969 0 0"/>
+		    <axis xyz="1 0 0"/>
+
+
+			<!-- <limit lower="-0.471" upper="+0.419" effort="1000" velocity="0.5"/> -->
+			
+			<limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/>
+
+		</joint>
+
+		<link name="${prefix}left_wrist_roll">
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_wrist_roll_joint" type="revolute">
+		    <parent link="${prefix}left_wrist_pitch"/>
+		    <child link="${prefix}left_wrist_roll"/>
+
+		    <origin xyz="0 0 -0.005" rpy="0 0 0"/>
+		    <axis xyz="1 0 0"/>
+
+			<limit lower="-0.471" upper="+0.419" effort="1000" velocity="0.5"/>
+			
+			<!-- For testing -->
+			<!-- <limit lower="-3.14159" upper="3.14159" effort="1000" velocity="0.5"/> -->
+		</joint>
+
+		<!-- <link name="${prefix}left_hand">
+			<xacro:if value="$(arg visual_mesh)">
+				<visual>
+					<origin rpy="0 0 0.0"/>
+					<geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_hand.stl"/>
+			        </geometry>
+			    </visual>
+			</xacro:if>
+			<xacro:if value="$(arg collision_mesh)">
+				<collision>
+					<origin rpy="0 0 0.0"/>
+					<geometry>
+			            <mesh scale="1 1 1" filename="package://sophia_robot_description/meshes/body/left_hand.stl"/>
+			        </geometry>
+			    </collision>
+			</xacro:if>
+		    <inertial>
+				<mass value="0.1"/>
+				<inertia ixx="1e-3" iyy="1e-3" izz="1e-3" ixy="0.0" ixz="0.0" iyz="0.0"/>
+			</inertial>
+		</link>
+		<joint name="${prefix}left_hand_joint" type="fixed">
+		    <parent link="${prefix}left_wrist_roll"/>
+		    <child link="${prefix}left_hand"/>
+
+		    <origin xyz="0 0 0.0" rpy="0 0 0"/>
+		</joint> -->
+
+		<xacro:left_hand parent="${prefix}left_wrist_roll" prefix="${prefix}" is_visual="$(arg hand_visual)"  is_collision="$(arg hand_collision)">
+			<origin xyz="0.0 0 0." rpy="0 0 0"/>
+		</xacro:left_hand>
+
+
+	</xacro:macro>
+
+</robot>

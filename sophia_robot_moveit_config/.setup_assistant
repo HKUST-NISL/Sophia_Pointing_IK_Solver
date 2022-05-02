@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: sophia_robot_description
+    relative_path: urdf/description.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/sophia_robot.srdf
+  CONFIG:
+    author_name: yshenaz
+    author_email: yshenaz@connect.ust.hk
+    generated_timestamp: 1646963534

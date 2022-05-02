@@ -1,0 +1,248 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="sophia_transmission" params="prefix">
+        <transmission name="${prefix}torso_yaw_trans" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${prefix}torso_yaw_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+			<actuator name="${prefix}torso_yaw_actuator">
+				<mechanicalReduction>1</mechanicalReduction>
+			</actuator>
+		</transmission>
+
+		<transmission name="${prefix}lower_gimble_l_trans" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${prefix}lower_gimble_l_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+			<actuator name="${prefix}lower_gimble_l_actuator">
+				<mechanicalReduction>1</mechanicalReduction>
+			</actuator>
+		</transmission>
+
+		<transmission name="${prefix}lower_gimble_r_trans" type="SimpleTransmission">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${prefix}lower_gimble_r_joint">
+				<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			</joint>
+			<actuator name="${prefix}lower_gimble_r_actuator">
+				<mechanicalReduction>1</mechanicalReduction>
+			</actuator>
+		</transmission>
+
+		<transmission name="${prefix}neck_base_rotation_x_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}neck_base_rotation_x_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}neck_base_rotation_x_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}neck_base_rotation_y_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}neck_base_rotation_y_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}neck_base_rotation_y_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}neck_yaw_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}neck_yaw_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}neck_yaw_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}neck_head_rotation_x_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}neck_head_rotation_x_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}neck_head_rotation_x_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}neck_head_rotation_y_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}neck_head_rotation_y_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}neck_head_rotation_y_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}upper_gimbal_l_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}upper_gimbal_l_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}upper_gimbal_l_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}upper_gimbal_r_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}upper_gimbal_r_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}upper_gimbal_r_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_shoulder_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_shoulder_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_shoulder_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_shoulder_roll_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_shoulder_roll_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_shoulder_roll_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_shoulder_yaw_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_shoulder_yaw_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_shoulder_yaw_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_elbow_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_elbow_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_elbow_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_elbow_yaw_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_elbow_yaw_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_elbow_yaw_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_wrist_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_wrist_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_wrist_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}right_wrist_roll_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}right_wrist_roll_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}right_wrist_roll_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_shoulder_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_shoulder_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_shoulder_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_shoulder_roll_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_shoulder_roll_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_shoulder_roll_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_shoulder_yaw_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_shoulder_yaw_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_shoulder_yaw_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_elbow_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_elbow_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_elbow_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_elbow_yaw_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_elbow_yaw_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_elbow_yaw_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_wrist_pitch_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_wrist_pitch_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_wrist_pitch_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+		<transmission name="${prefix}left_wrist_roll_trans" type="SimpleTransmission">
+		    <type>transmission_interface/SimpleTransmission</type>
+		    <joint name="${prefix}left_wrist_roll_joint">
+		        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		    </joint>
+		    <actuator name="${prefix}left_wrist_roll_actuator">
+		        <mechanicalReduction>1</mechanicalReduction>
+		    </actuator>
+		</transmission>
+
+    </xacro:macro>
+
+</robot>

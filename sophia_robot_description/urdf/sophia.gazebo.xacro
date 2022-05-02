@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="sophia_gazebo" params="prefix">
+
+      <gazebo reference="${prefix}root">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}torso_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_center">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}lower_gimble_l">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}lower_gimble_swivel_l">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}lower_gimble_r">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}lower_gimble_swivel_r">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_base_rotation_x">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_base_rotation_y">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_lower_swivel_l_attachmentpoint">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_lower_swivel_r_attachmentpoint">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_upper_swivel_l_attachmentpoint">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_upper_swivel_r_attachmentpoint">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_head_rotation_x">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}neck_head_rotation_y">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}upper_gimbal_l">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}upper_gimbal_swivel_l">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}upper_gimbal_r">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}upper_gimbal_swivel_r">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}head">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}shoulder_center">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_shoulder_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_shoulder_roll">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_shoulder_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_elbow_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_elbow_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_wrist_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_wrist_roll">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_hand">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_shoulder_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_shoulder_roll">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_shoulder_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_elbow_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_elbow_yaw">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_wrist_pitch">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_wrist_roll">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}left_hand">
+          <selfCollide>true</selfCollide>
+      </gazebo>
+
+  </xacro:macro>
+
+</robot>

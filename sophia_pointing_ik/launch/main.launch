@@ -1,0 +1,13 @@
+<launch>
+  <node name="sophia_pointing_ik_node" pkg="sophia_pointing_ik" type="sophia_pointing_ik_node" output="screen" cwd="node"/>
+  
+  <!-- Verbosity level -->
+  <arg name="verbosity" default="2"/> 
+  <param name="verbosity" type="int" value="$(arg verbosity)"/>
+
+  <!-- Planning plugin -->
+  <rosparam command="load" file="$(find sophia_robot_moveit_config)/config/kinematics.yaml"/>
+  <param name="/planning_plugin" value="ompl_interface/OMPLPlanner"/>
+  <rosparam command="load" file="$(find sophia_robot_moveit_config)/config/ompl_planning.yaml"/>
+
+</launch>

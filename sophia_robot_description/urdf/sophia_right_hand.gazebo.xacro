@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="sophia_right_hand_gazebo" params="prefix">
+
+      <gazebo reference="${prefix}right_index_distal">
+        <sensor name="right_index_distal_contact_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>50.0</update_rate>
+          <contact>
+            <collision>right_index_distal_collision</collision>
+          </contact>
+          <plugin name="gripper_bumper" filename="libgazebo_ros_bumper.so">
+            <!-- <robotNamespace>/</robotNamespace> -->
+            <bumperTopicName>contact/right_index_distal_contact_sensor_state</bumperTopicName>
+            <frameName>base_link</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <gazebo reference="${prefix}right_middle_distal">
+        <sensor name="right_middle_distal_contact_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>50.0</update_rate>
+          <contact>
+            <collision>right_middle_distal_collision</collision>
+          </contact>
+          <plugin name="gripper_bumper" filename="libgazebo_ros_bumper.so">
+            <!-- <robotNamespace>/</robotNamespace> -->
+            <bumperTopicName>contact/right_middle_distal_contact_sensor_state</bumperTopicName>
+            <frameName>base_link</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <gazebo reference="${prefix}right_ring_distal">
+        <sensor name="right_ring_distal_contact_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>50.0</update_rate>
+          <contact>
+            <collision>right_ring_distal_collision</collision>
+          </contact>
+          <plugin name="gripper_bumper" filename="libgazebo_ros_bumper.so">
+            <!-- <robotNamespace>/</robotNamespace> -->
+            <bumperTopicName>contact/right_ring_distal_contact_sensor_state</bumperTopicName>
+            <frameName>base_link</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <gazebo reference="${prefix}right_pinky_distal">
+        <sensor name="right_pinky_distal_contact_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>50.0</update_rate>
+          <contact>
+            <collision>right_pinky_distal_collision</collision>
+          </contact>
+          <plugin name="gripper_bumper" filename="libgazebo_ros_bumper.so">
+            <!-- <robotNamespace>/</robotNamespace> -->
+            <bumperTopicName>contact/right_pinky_distal_contact_sensor_state</bumperTopicName>
+            <frameName>base_link</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <gazebo reference="${prefix}right_thumb_distal">
+        <sensor name="right_thumb_distal_contact_sensor" type="contact">
+          <always_on>true</always_on>
+          <update_rate>50.0</update_rate>
+          <contact>
+            <collision>right_thumb_distal_collision</collision>
+          </contact>
+          <plugin name="gripper_bumper" filename="libgazebo_ros_bumper.so">
+            <!-- <robotNamespace>/</robotNamespace> -->
+            <bumperTopicName>contact/right_thumb_distal_contact_sensor_state</bumperTopicName>
+            <frameName>base_link</frameName>
+          </plugin>
+        </sensor>
+      </gazebo>
+
+      <gazebo reference="${prefix}right_hand_palm">
+          <selfCollide>False</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_index_base">
+          <selfCollide>False</selfCollide>
+      </gazebo>
+      <gazebo reference="${prefix}right_index_proximal">
+          <selfCollide>False</selfCollide>
+      </gazebo>
+
+  </xacro:macro>
+
+</robot>
