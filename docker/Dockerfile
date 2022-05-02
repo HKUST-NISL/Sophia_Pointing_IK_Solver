@@ -5,7 +5,7 @@ USER root
 #Install dependencies using the pakcage manager
 RUN apt-get update &&\
     #Dependencies of ik plugin
-    apt-get install -y libblas-dev liblapack-dev python3-catkin-tools;\
+    apt-get install -y libblas-dev liblapack-dev python3-catkin-tools ros-melodic-pcl-ros;\
     #Setup git lfs
     apt-get install -y curl && \ 
     curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
@@ -28,6 +28,5 @@ RUN cd /home/ && git clone https://github.com/flexible-collision-library/fcl.git
 RUN cd /home/ && mkdir catkin_ws && cd catkin_ws && \
     git clone https://github.com/HKUST-NISL/Sophia_Pointing_IK_Solver.git && \
     mv Sophia_Pointing_IK_Solver src;
-RUN apt-get install -y libpcl-dev
 RUN cd /home/catkin_ws/ && catkin config --extend /opt/ros/melodic && catkin build;
 
