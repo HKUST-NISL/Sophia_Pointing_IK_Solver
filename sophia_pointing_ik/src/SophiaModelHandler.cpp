@@ -32,8 +32,8 @@ leftHandMoveGroupInterface(leftHandGroupName)
     loadWristEnvelope(SophiaModelHandler::ARM::RIGHT);
     loadWristEnvelope(SophiaModelHandler::ARM::LEFT);
 
-    // //Test pointing
-    // testPointing();
+    //Test pointing
+    testPointing();
 
     // // //Test mapping
     // // testMappingDir();
